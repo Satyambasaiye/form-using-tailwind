@@ -35,35 +35,17 @@ const Form = () => {
   const [actualPrice, setActualPrice] = useState('');
   const [discountedPrice, setDiscountedPrice] = useState('');
   const [image, setImage] = useState(null);
-  const [itinerary, setItinerary] = useState('');
-  const [thingsToCarry, setThingsToCarry] = useState('');
   const [pickUpPoint, setPickUpPoint] = useState('');
-  const [includes, setIncludes] = useState('');
-  const [contactDetails, setContactDetails] = useState('');
 
   const handleDescriptionChange = (value) => {
     setDescription(value);
-  }
-
-  const handleItineraryChange = (value) => {
-    setItinerary(value);
-  }
-
-  const handleThingsToCarryChange = (value) => {
-    setThingsToCarry(value);
   }
 
   const handlePickUpPointChange = (value) => {
     setPickUpPoint(value);
   }
 
-  const handleIncludesChange = (value) => {
-    setIncludes(value);
-  }
-
-  const handleContactDetailsChange = (value) => {
-    setContactDetails(value);
-  }
+ 
   function handleVisibilityChange(event) {
     setVisibility(event.target.value);
   }
@@ -85,11 +67,7 @@ const Form = () => {
       toDate,
       actualPrice,
       discountedPrice,
-      itinerary,
-      thingsToCarry,
       pickUpPoint,
-      includes,
-      contactDetails,
     }
     
     const config = {
@@ -105,57 +83,27 @@ const Form = () => {
     }
   };
 return(
+  <div className="container mx-auto">
   
-  <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
-  <h1 className="text-4xl text-center mb-8 font-bold text-gray-800" style={{ width: '100%' }}>Trek Form</h1>
-  <div className="mb-4">
-  <label
-    className="block font-bold text-gray-700"
-    htmlFor="eventName"
-    style={{ display: "block" }}
-  >
-    Event Name:
-  </label>
-  <input
-    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline "
-    id="eventName"
-    type="text"
-    placeholder="Enter Event Name"
-    value={eventName}
-    onChange={(e) => seteventName(e.target.value)}
-  />
-</div>
+    <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit} style={{padding: '40px'}}>
+        <h1 className="text-4xl text-center mb-8 font-bold text-gray-800">Trek Form</h1>
+        <div className="mb-4">
+            <label className="block font-bold text-gray-700 mb-2" htmlFor="eventName">Event Name:</label>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2" id="eventName" type="text" placeholder="Enter Event Name" value={eventName} onChange={(e) => seteventName(e.target.value)}   />
+            
+        </div>
 
-<div className="mb-4">
-  <label
-    className="block font-bold text-gray-700"
-    htmlFor="displayName"
-    style={{ display: "block" }}
-  >
-    Event Display Name:
-  </label>
-  <input
-    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline "
-    id="displayName"
-    type="text"
-    placeholder="Enter Event Name"
-    value={displayName}
-    onChange={(e) => setdisplayName(e.target.value)}
-  />
-</div>
-<div className="my-4 flex flex-col">
-    <label className="block font-bold text-gray-700 mb-2">Event Location:</label>
-    <input
-      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      type="text"
-      rows="4"
-      value={locations}
-      onChange={(e) => setLocations(e.target.value)}
-      required
-    />
-  </div>
+        <div className="mb-4">
+            <label className="block font-bold text-gray-700 mb-2" htmlFor="displayName">Event Display Name:</label>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2" id="displayName" type="text" placeholder="Enter Event Name" value={displayName} onChange={(e) => setdisplayName(e.target.value)}   />
+        </div>
+
+        <div className="my-4">
+            <label className="block font-bold text-gray-700 mb-2">Event Location:</label>
+            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2" type="text" rows="4" placeholder="Enter Event Location" value={locations} onChange={(e) => setLocations(e.target.value)} required  />
+        </div>
   <div className="my-4">
-          <p>Event Visibility</p>
+          <label className='block font-bold text-gray-700 mb-2'>Event Visibilit:</label>
           <div>
           <input type="radio" id="public" name="visibility" value="public" checked={visibility === 'public'} onChange={handleVisibilityChange} />
 
@@ -180,6 +128,7 @@ return(
         className="block w-full border-gray-300 rounded-md shadow-sm px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         type="date"
         value={fromDate}
+        style={{maxWidth: '300px'}}
         onChange={(e) => setFromDate(e.target.value)}
         required
       />
@@ -190,6 +139,7 @@ return(
         className="block w-full border-gray-300 rounded-md shadow-sm px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         type="date"
         value={toDate}
+        style={{maxWidth: '300px'}}
         onChange={(e) => setToDate(e.target.value)}
         required
       />
@@ -202,6 +152,9 @@ return(
         className="block w-full border-gray-300 rounded-md shadow-sm px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         type="number"
         value={actualPrice}
+        placeholder="0"
+        style={{maxWidth: '300px'}}
+
         onChange={(e) => setActualPrice(e.target.value)}
         required
       />
@@ -212,13 +165,16 @@ return(
         className="block w-full border-gray-300 rounded-md shadow-sm px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         type="number"
         value={discountedPrice}
+        placeholder="0"
+        style={{maxWidth: '300px'}}
+
         onChange={(e) => setDiscountedPrice(e.target.value)}
         required
       />
     </div>
       </div>
       <div className="mb-4">
-        <label className="block">Upload Image:</label>
+        <label className="block">Event Image:</label>
         <input
           className="block w-full border-gray-300 rounded-md shadow-sm"
           type="file"
@@ -234,6 +190,7 @@ return(
       modules={modules}
       formats={formats}
       theme="snow"
+      rows={5}
       placeholder="Enter description here"
       required
     />
@@ -251,60 +208,12 @@ return(
         />
         </div>
 
-      <div className="mb-4">
-        <label className="block">Itinerary:</label>
-        <ReactQuill 
-          className="w-full border-gray-300 rounded-md shadow-sm"
-          value={itinerary} 
-          onChange={handleItineraryChange}
-          modules={modules}
-          formats={formats}
-          theme="snow"
-          placeholder="Enter itinerary here"
-        />
-      </div>
-      <div className="mb-4">
-      <label className="block">Things to carry:</label>
-      <ReactQuill 
-        className="w-full border-gray-300 rounded-md shadow-sm"
-        value={thingsToCarry}
-        onChange={handleThingsToCarryChange}
-        modules={modules}
-        formats={formats}
-        theme="snow"
-        placeholder="Enter things to carry here"
-        />
-        </div>
-      
-
-        <div className="my-4 flex flex-col">
-    <label className="block font-bold text-gray-700 mb-2">Cost Includes:</label>
-    <input
-      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      type="text"
-      rows="4"
-      value={includes}
-      onChange={(e) => setIncludes(e.target.value)}
-      required
-    />
-  </div>
-  <div className="my-4 flex flex-col">
-    <label className="block font-bold text-gray-700 mb-2">Contact  Details:</label>
-    <input
-      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      type="text"
-      rows="4"
-      value={contactDetails}
-      onChange={(e) => setContactDetails(e.target.value)}
-      required
-    />
-  </div>
-
         <button className="bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-blue-600 transition-colors duration-300">
         Submit
         </button>
         
           </form>
+          </div>
           );
           
           
