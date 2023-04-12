@@ -22,9 +22,11 @@ const modules = {
 const formats = [  'header', 'font', 'size',  'bold', 'italic', 'underline', 'strike', 'blockquote',  'list', 'bullet', 'indent',  'link', 'image', 'video']
 
 const Form = () => {
-  const [title, setTitle] = useState('');
+  const [eventName, seteventName] = useState('');
+  const [displayName, setdisplayName] = useState('');
   const [description, setDescription] = useState('');
   const [isEdit, setIsEdit] = useState(false);
+  const [visibility, setVisibility] = useState('public');
 
 
   const [locations, setLocations] = useState('');
@@ -38,7 +40,6 @@ const Form = () => {
   const [pickUpPoint, setPickUpPoint] = useState('');
   const [includes, setIncludes] = useState('');
   const [contactDetails, setContactDetails] = useState('');
-  const [cancellationPolicy, setCancellationPolicy] = useState('');
 
   const handleDescriptionChange = (value) => {
     setDescription(value);
@@ -63,10 +64,10 @@ const Form = () => {
   const handleContactDetailsChange = (value) => {
     setContactDetails(value);
   }
-
-  const handleCancellationPolicyChange = (value) => {
-    setCancellationPolicy(value);
+  function handleVisibilityChange(event) {
+    setVisibility(event.target.value);
   }
+
 
   const handleChange = (value) => {
     setDescription(value);
@@ -76,7 +77,8 @@ const Form = () => {
     event.preventDefault();
 
     const data = {
-      title,
+      eventName,
+      displayName,
       description,
       locations,
       fromDate,
@@ -88,9 +90,8 @@ const Form = () => {
       pickUpPoint,
       includes,
       contactDetails,
-      cancellationPolicy
     }
-
+    
     const config = {
       headers: {
         'Content-Type': 'application/json'
@@ -104,47 +105,46 @@ const Form = () => {
     }
   };
 return(
-  <div style={{ 
-  display: 'flex', 
-  justifyContent: 'center', 
-  alignItems: 'center', 
-  background: '#f5f5f5' 
-}}>
+  
   <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit}>
   <h1 className="text-4xl text-center mb-8 font-bold text-gray-800" style={{ width: '100%' }}>Trek Form</h1>
   <div className="mb-4">
   <label
     className="block font-bold text-gray-700"
-    htmlFor="title"
+    htmlFor="eventName"
     style={{ display: "block" }}
   >
-    Title
+    Event Name:
   </label>
   <input
     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline "
-    id="title"
+    id="eventName"
     type="text"
-    placeholder="Title"
-    value={title}
-    onChange={(e) => setTitle(e.target.value)}
+    placeholder="Enter Event Name"
+    value={eventName}
+    onChange={(e) => seteventName(e.target.value)}
   />
 </div>
 
-  <div className="mb-6">
-    <label className="block font-bold text-gray-700">Description:</label>
-    <ReactQuill 
-      className="w-full border-gray-300 rounded-md shadow-sm px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-      value={description} 
-      onChange={handleChange}
-      modules={modules}
-      formats={formats}
-      theme="snow"
-      placeholder="Enter description here"
-      required
-    />
-  </div>
-  <div className="my-4 flex flex-col">
-    <label className="block font-bold text-gray-700 mb-2">Locations:</label>
+<div className="mb-4">
+  <label
+    className="block font-bold text-gray-700"
+    htmlFor="displayName"
+    style={{ display: "block" }}
+  >
+    Event Display Name:
+  </label>
+  <input
+    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline "
+    id="displayName"
+    type="text"
+    placeholder="Enter Event Name"
+    value={displayName}
+    onChange={(e) => setdisplayName(e.target.value)}
+  />
+</div>
+<div className="my-4 flex flex-col">
+    <label className="block font-bold text-gray-700 mb-2">Event Location:</label>
     <input
       className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       type="text"
@@ -154,6 +154,25 @@ return(
       required
     />
   </div>
+  <div className="my-4">
+          <p>Event Visibility</p>
+          <div>
+          <input type="radio" id="public" name="visibility" value="public" checked={visibility === 'public'} onChange={handleVisibilityChange} />
+
+            <label htmlFor="public" className="form-label">Public</label>
+          </div>
+          <div>
+          <input type="radio" id="link" name="visibility" value="link" checked={visibility === 'link'} onChange={handleVisibilityChange} />
+
+            <label htmlFor="link" className="form-label">Link</label>
+          </div>
+          <div>
+          <input type="radio" id="private" name="visibility" value="private" checked={visibility === 'private'} onChange={handleVisibilityChange} />
+            <label htmlFor="private" className="form-label">Private</label>
+          </div>
+        </div>
+  
+
   <div className="grid grid-cols-2 gap-4 mb-6">
     <div>
       <label className="block font-bold text-gray-700">From Date:</label>
@@ -206,6 +225,32 @@ return(
           onChange={(e) => setImage(e.target.files[0])}
         />
       </div>
+      <div className="mb-6">
+    <label className="block font-bold text-gray-700">Description:</label>
+    <ReactQuill 
+      className="w-full border-gray-300 rounded-md shadow-sm px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+      value={description} 
+      onChange={handleChange}
+      modules={modules}
+      formats={formats}
+      theme="snow"
+      placeholder="Enter description here"
+      required
+    />
+  </div>
+  <div className="mb-4">
+      <label className="block">Pick up points:</label>
+      <ReactQuill 
+        className="w-full border-gray-300 rounded-md shadow-sm"
+        value={pickUpPoint}
+        onChange={handlePickUpPointChange}
+        modules={modules}
+        formats={formats}
+        theme="snow"
+        placeholder="Enter pick up points here"
+        />
+        </div>
+
       <div className="mb-4">
         <label className="block">Itinerary:</label>
         <ReactQuill 
@@ -230,18 +275,7 @@ return(
         placeholder="Enter things to carry here"
         />
         </div>
-        <div className="mb-4">
-      <label className="block">Pick up points:</label>
-      <ReactQuill 
-        className="w-full border-gray-300 rounded-md shadow-sm"
-        value={pickUpPoint}
-        onChange={handlePickUpPointChange}
-        modules={modules}
-        formats={formats}
-        theme="snow"
-        placeholder="Enter pick up points here"
-        />
-        </div>
+      
 
         <div className="my-4 flex flex-col">
     <label className="block font-bold text-gray-700 mb-2">Cost Includes:</label>
@@ -265,23 +299,12 @@ return(
       required
     />
   </div>
-  <div className="my-4 flex flex-col">
-    <label className="block font-bold text-gray-700 mb-2">Cancellation Policy:</label>
-    <input
-      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      type="text"
-      rows="4"
-      value={cancellationPolicy}
-      onChange={(e) => setCancellationPolicy(e.target.value)}
-      required
-    />
-  </div>
+
         <button className="bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm hover:bg-blue-600 transition-colors duration-300">
         Submit
         </button>
         
           </form>
-          </div>
           );
           
           
